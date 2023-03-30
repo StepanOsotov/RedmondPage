@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='UTF-8'>
+		<title>Программы</title>
+<!-- -------------------------------CASCADINGG-STYLE-SHEETS------------ -->
+		<style>
+			html, body
+			{
+				height: 80%;
+				margin: 0;
+				background:#000;
+				color:#ddd;
+			}
+			.centerButton
+			{
+				border: 10px solid darkred;
+				max-width: 100%;
+				height: 70vh;
+				margin: auto;
+				align-items: center;
+				justify-content: center;
+			}
+			#tWork,#tRunning,#tGradus
+			{
+				margin: 7px 2px;
+				padding: 25px 32px;
+				font-size: 25px;
+				width:40%;
+				height:30%;
+			}
+			#tWork:hover,
+			#tRunning:hover,
+			#tGradus:hover
+			{
+				background-color: #4CAF50;
+				color: white;
+			}
+			#debugPress
+			{
+				border: 10px solid gray;
+				max-width: 900px;
+				height: 10vh;
+				margin: auto;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+		</style>
+<!-- -------------------------------END-CSS---------------------------- -->
+	</head>
+	<body>
+		<div class='centerButton'>
+			<p style='text-align: center'>
+				<button id='tWork'
+								type='submit'
+								onclick='func_t_work()'>
+								Время работы, час/мин
+				</button>
+			</p>
+			<p style='text-align: center'>
+				<button id='tRunning'
+								type='submit'
+								onclick='func_t_run()'>
+								Время запуска, час/мин
+				</button>
+			</p>
+			<p style='text-align: center'>
+					<button id='tGradus'
+									type='submit'
+									onclick='func_temperature()'>
+									Температура, °C
+					</button>
+			</p>		
+		</div>
+		<div id='debugPress'>debug Press</div>
+<!-- -------------------------------JS-SCRIPT-CODE--------------------- -->
+		<script>
+			//-------------------------------------
+			function func_t_work()
+			{
+				myLabel = document.getElementById('debugPress');
+				myLabel.innerHTML = 'press button (func_t_work)';
+				myLabel.innerHTML += ', Время работы, час/мин';
+			}
+			//-------------------------------------
+			function func_t_run()
+			{
+				myLabel = document.getElementById('debugPress');
+				myLabel.innerHTML = 'press button (func_t_run)';
+				myLabel.innerHTML += ', Время запуска, час/мин';
+			}
+			//-------------------------------------
+			function func_temperature()
+			{
+				myLabel = document.getElementById('debugPress');
+				myLabel.innerHTML = 'press button (func_temperature)';
+				myLabel.innerHTML += ', Температура, °C';
+			}
+		</script>
+<!-- -------------------------------END-JS-SCRIPT---------------------- -->
+	</body>
+</html>

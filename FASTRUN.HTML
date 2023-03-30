@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='UTF-8'>
+		<title>Быстрый Старт</title>
+<!-- -------------------------------CASCADINGG-STYLE-SHEETS------------ -->
+		<style>
+			html, body
+			{
+				height: 70%;
+				margin: 0;
+				background:#000;
+				color:#ddd;
+			}
+			.centerCircle
+			{
+				border: 10px solid darkred;
+				max-width: 100%;
+				height: 70vh;
+				margin: auto;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			#debugPress, #debugRX
+			{
+				border: 5px solid gray;
+				max-width: 900px;
+				height: 8vh;
+				margin: auto;
+				display: flex;
+				font-size: 22px;
+				align-items: center;
+				justify-content: center;
+			}
+		</style>
+<!-- -------------------------------END-CSS---------------------------- -->
+		<div class='centerCircle'>
+			<div
+				id='svgRoot'>
+			</div>
+		</div>
+	</head>
+	<body>
+		<div id='debugPress'>debug Press</div>
+		<div id='debugRX'>receive data</div>
+<!-- -------------------------------JS-SCRIPT-CODE--------------------- -->
+		<script type='text/javascript'>
+			const DIAMETER = 400;
+			const DIAMETER_CENTER = 60;
+			const SVG_SIZE = DIAMETER + 12;
+			const STROKE = 'black';
+			const STROKE_WIDTH = '1';
+			const COORDINATE_TEXT_RED_X = SVG_SIZE/2;
+			const COORDINATE_TEXT_RED_Y = COORDINATE_TEXT_RED_X/2;
+			const COORDINATE_TEXT_GREEN_Y = COORDINATE_TEXT_RED_X;
+			const COORDINATE_TEXT_GREEN_X = COORDINATE_TEXT_GREEN_Y/2;
+			const COORDINATE_TEXT_BLUE_X = SVG_SIZE/2;
+			const COORDINATE_TEXT_BLUE_Y = (COORDINATE_TEXT_BLUE_X/2)*3;
+			const COORDINATE_TEXT_YELLOW_Y = SVG_SIZE/2;;
+			const COORDINATE_TEXT_YELLOW_X = (COORDINATE_TEXT_YELLOW_Y/2)*3;
+			const RADUIS_POINT = 4;
+			var isChangeColorRed = false;
+			var isChangeColorGreen = false;
+			var isChangeColorBlue = false;
+			var isChangeColorYellow = false;
+			var globalTimeout = 2000;
+			var payloadJSON = '';
+			async function functionCircleRed()
+			{
+				myLabel = document.getElementById('debugPress');
+				let but = document.getElementById('idRed');
+				if(!isChangeColorRed)
+				{
+					but.style.fill = 'gray';
+				}
+				else
+				{
+					but.style.fill = 'red';
+				}
+				payloadJSON = {'press' : 'esp32_red', 'color' : but.style.fill};
+				myLabel.innerHTML = 'payloadJSON : ' + JSON.stringify(payloadJSON);
+				url_path = f_draw_all_url();
+				url_path += 'buttonsRGBY';
+				myLabel.innerHTML += ', url_path = ' + url_path;
+				
+				//await postData(url_path, payloadJSON);
+				await postDataWithTimeout(url_path, payloadJSON, globalTimeout)
+				.then(jsonESP32 =>
+				{
+					parseJSON = JSON.stringify(jsonESP32);
+					isChangeColorRed = !isChangeColorRed;
+					payloadJSON = jsonESP32;
+					myLabel = document.getElementById('debugRX');
+					myLabel.innerHTML = 'payloadJSON : ' + parseJSON;
+					
+					jsonParts = JSON.parse(parseJSON);
+					console.log('jsonParts.getcolor = ' + jsonParts.getcolor);
+					console.log('jsonParts.getbutton = ' + jsonParts.getbutton);
+				})
+				.catch ( error =>
+				{
+					but.style.fill = 'red';
+					alert('нет связи с модулем, ' + error.message);
+				});
+			}
+			async function functionCircleGreen()
+			{
+				myLabel = document.getElementById('debugPress');
+				let but = document.getElementById('idGreen');
+				if(!isChangeColorGreen)
+				{
+					but.style.fill = 'gray';
+				}
+				else
+				{
+					but.style.fill = 'green';
+				}
+				payloadJSON = {'press' : 'esp32_green', 'color' : but.style.fill};
+				myLabel.innerHTML = 'payloadJSON : ' + JSON.stringify(payloadJSON);
+				url_path = f_draw_all_url();
+				url_path += 'buttonsRGBY';
+				myLabel.innerHTML += ', url_path = ' + url_path;
+				//postData(url_path, payloadJSON);
+				await postDataWithTimeout(url_path, payloadJSON, globalTimeout)
+				.then(jsonESP32 =>
+				{
+					parseJSON = JSON.stringify(jsonESP32);
+					isChangeColorGreen = !isChangeColorGreen;
+					payloadJSON = jsonESP32;
+					myLabel = document.getElementById('debugRX');
+					myLabel.innerHTML = 'payloadJSON : ' + parseJSON;
+					
+					jsonParts = JSON.parse(parseJSON);
+					console.log('jsonParts.getcolor = ' + jsonParts.getcolor);
+					console.log('jsonParts.getbutton = ' + jsonParts.getbutton);
+				})
+				.catch ( error =>
+				{
+					but.style.fill = 'green';
+					alert('нет связи с модулем, ' + error.message);
+				});
+			}
+			async function functionCircleBlue()
+			{
+				myLabel = document.getElementById('debugPress');
+				let but = document.getElementById('idBlue');
+				if(!isChangeColorBlue)
+				{
+					but.style.fill = 'gray';
+				}
+				else
+				{
+					but.style.fill = 'blue';
+				}
+				payloadJSON = {'press' : 'esp32_blue', 'color' : but.style.fill};
+				myLabel.innerHTML = 'payloadJSON : ' + JSON.stringify(payloadJSON);
+				url_path = f_draw_all_url();
+				url_path += 'buttonsRGBY';
+				myLabel.innerHTML += ', url_path = ' + url_path;
+				
+				//await postData(url_path, payloadJSON)
+				await postDataWithTimeout(url_path, payloadJSON, globalTimeout)
+				.then(jsonESP32 =>
+				{
+					parseJSON = JSON.stringify(jsonESP32);
+					isChangeColorBlue = !isChangeColorBlue;
+					payloadJSON = jsonESP32;
+					myLabel = document.getElementById('debugRX');
+					myLabel.innerHTML = 'payloadJSON : ' + parseJSON;
+					
+					jsonParts = JSON.parse(parseJSON);
+					console.log('jsonParts.getcolor = ' + jsonParts.getcolor);
+					console.log('jsonParts.getbutton = ' + jsonParts.getbutton);
+				})
+				.catch ( error =>
+				{
+					but.style.fill = 'blue';
+					alert('нет связи с модулем, ' + error.message);
+				});
+			}
+			async function functionCircleYellow()
+			{
+				myLabel = document.getElementById('debugPress');
+				let but = document.getElementById('idYellow');
+				if(!isChangeColorYellow)
+				{
+					but.style.fill = 'gray';
+				}
+				else
+				{
+					but.style.fill = 'yellow';
+				}
+				payloadJSON = {'press' : 'esp32_yellow', 'color' : but.style.fill};
+				myLabel.innerHTML = 'payloadJSON : ' + JSON.stringify(payloadJSON);
+				url_path = f_draw_all_url();
+				url_path += 'buttonsRGBY';
+				myLabel.innerHTML += ', url_path = ' + url_path;
+				
+				//await postData(url_path, payloadJSON)
+				await postDataWithTimeout(url_path, payloadJSON, globalTimeout)
+				.then(jsonESP32 =>
+				{
+					parseJSON = JSON.stringify(jsonESP32);
+					isChangeColorYellow = !isChangeColorYellow;
+					payloadJSON = jsonESP32;
+					myLabel = document.getElementById('debugRX');
+					myLabel.innerHTML = 'payloadJSON : ' + parseJSON;
+					
+					jsonParts = JSON.parse(parseJSON);
+					console.log('jsonParts.getcolor = ' + jsonParts.getcolor);
+					console.log('jsonParts.getbutton = ' + jsonParts.getbutton);
+				})
+				.catch ( error =>
+				{
+					but.style.fill = 'yellow';
+					alert('нет связи с модулем, ' + error.message);
+				});
+			}
+			async function functionCircleCenter()
+			{
+				url_path = f_draw_all_url();
+				url_path += 'buttonsRGBY';
+				payloadJSON = {'press' : 'esp32_white', 'color' : 'white'};
+				//await postData(url_path, payloadJSON)
+				await postDataWithTimeout(url_path, payloadJSON, globalTimeout)
+				.then(jsonESP32 =>
+				{
+					parseJSON = JSON.stringify(jsonESP32);
+					payloadJSON = jsonESP32;
+          var myWindow = window.open('', '_blank');
+          //myWindow.document.write(payloadJSON.buttonFastRun);
+				})
+				.catch ( error =>
+				{
+					alert('нет связи с модулем, ' + error.message);
+				});
+			}
+			function f_draw_all_url()
+			{
+				return 'http://172.16.8.23/';
+			}
+			/*
+			async function postData(url = '', jsondata = {})
+			{
+				const responseFromESP32 = await fetch(url,
+				{
+					method: 'POST',
+					mode: 'cors',
+					cache: 'no-cache',
+					credentials: 'same-origin',
+					headers:
+					{
+						'Accept': 'application/json',
+					},
+					redirect: 'follow',
+					referrerPolicy: 'no-referrer',
+					body: JSON.stringify(jsondata)
+				});
+				const jsonESP32 = await responseFromESP32.json();
+				return jsonESP32;
+			}
+			*/
+			async function postDataWithTimeout(url = '', jsondata = {}, thresholdTime = {})
+			{
+				const {timeout = globalTimeout} = thresholdTime;		//default
+				const controller = new AbortController();
+				const id = setTimeout( () => controller.abort(), timeout);
+				
+				const responseFromESP32 = await fetch(url,
+				{
+					method: 'POST',
+					mode: 'cors',
+					cache: 'no-cache',
+					credentials: 'same-origin',
+					headers:
+					{
+						'Accept': 'application/json',
+					},
+					redirect: 'follow',
+					referrerPolicy: 'no-referrer',
+					signal: controller.signal,
+					body: JSON.stringify(jsondata)
+				});
+				const jsonESP32 = await responseFromESP32.json();
+				clearTimeout(id);
+				return jsonESP32;
+			}
+			const getSectorPath = (x, y, outerDiameter, a1, a2) =>
+			{
+				const degtorad = Math.PI / 180;
+				const cr = outerDiameter / 2;
+				const cx1 = Math.cos(degtorad * a2) * cr + x;
+				const cy1 = -Math.sin(degtorad * a2) * cr + y;
+				const cx2 = Math.cos(degtorad * a1) * cr + x;
+				const cy2 = -Math.sin(degtorad * a1) * cr + y;
+				return `M${x} ${y} ${cx1} ${cy1} A${cr} ${cr} 0 0 1 ${cx2} ${cy2}Z`;
+			};
+			const svgRoot = document.getElementById('svgRoot');
+			const pieChartSvgString = 
+			`<svg width='${SVG_SIZE}' height='${SVG_SIZE}'>
+				<path
+					stroke='${STROKE}'
+					stroke-width='${STROKE_WIDTH}'
+					d='${getSectorPath(SVG_SIZE / 2, SVG_SIZE / 2, DIAMETER, 45, 135)}'
+					fill='#ff0000'
+					id='idRed'
+					onclick='functionCircleRed()'
+				/>
+				<path
+					stroke='${STROKE}'
+					stroke-width='${STROKE_WIDTH}'
+					d='${getSectorPath(SVG_SIZE / 2, SVG_SIZE / 2, DIAMETER, 135, 225)}'
+					fill='#00ff00'
+					id='idGreen'
+					onclick='functionCircleGreen()'
+				/>
+				<path
+					stroke='${STROKE}'
+					stroke-width='${STROKE_WIDTH}'
+					d='${getSectorPath(SVG_SIZE / 2, SVG_SIZE / 2, DIAMETER, 225, 315)}'
+					fill='#0000ff'
+					id='idBlue'
+					onclick='functionCircleBlue()'
+				/>
+				<path
+					stroke='${STROKE}'
+					stroke-width='${STROKE_WIDTH}'
+					d='${getSectorPath(SVG_SIZE / 2, SVG_SIZE / 2, DIAMETER, 315, 45)}'
+					fill='#ffff00'
+					id='idYellow'
+					onclick='functionCircleYellow()'
+				/>
+				<!-- само рисование круга -->
+				<circle
+					cx=${SVG_SIZE/2} cy=${SVG_SIZE/2} r=${DIAMETER_CENTER}
+					fill='#ffffff'
+					id='idCenter'
+					onclick='functionCircleCenter()'
+				/>
+				<text id='textRed' x='${COORDINATE_TEXT_RED_X}' y='${COORDINATE_TEXT_RED_Y}'>RED</text>
+				<text id='textGreen' x='${COORDINATE_TEXT_GREEN_X}' y='${COORDINATE_TEXT_GREEN_Y}'>GREEN</text>
+				<text id='textBlue' x='${COORDINATE_TEXT_BLUE_X}' y='${COORDINATE_TEXT_BLUE_Y}'>BLUE</text>
+				<text id='textYellow' x='${COORDINATE_TEXT_YELLOW_X}' y='${COORDINATE_TEXT_YELLOW_Y}'>YELLOW</text>
+				<text id='textWhite' x='${COORDINATE_TEXT_RED_X}' y='${COORDINATE_TEXT_RED_X}'>WHITE</text>
+				<circle cx='${COORDINATE_TEXT_RED_X}' cy='${COORDINATE_TEXT_RED_Y}' r='${RADUIS_POINT}' fill='green'/>
+				<circle cx='${COORDINATE_TEXT_GREEN_X}' cy='${COORDINATE_TEXT_GREEN_Y}' r='${RADUIS_POINT}' fill='blue'/>
+				<circle cx='${COORDINATE_TEXT_BLUE_X}' cy='${COORDINATE_TEXT_BLUE_Y}' r='${RADUIS_POINT}' fill='pink'/>
+				<circle cx='${COORDINATE_TEXT_YELLOW_X}' cy='${COORDINATE_TEXT_YELLOW_Y}' r='${RADUIS_POINT}' fill='magenta'/>
+				<circle cx='${COORDINATE_TEXT_RED_X}' cy='${COORDINATE_TEXT_RED_X}' r='${RADUIS_POINT}' fill='black'/>
+			</svg>`;
+			const svgNode = document.createRange().createContextualFragment(pieChartSvgString);
+			svgRoot.appendChild(svgNode);
+		</script>
+<!-- -------------------------------END-JS-SCRIPT---------------------- -->
+	</body>
+</html>
