@@ -94,109 +94,36 @@
 		<div class='debugRX'>receive data</div>
 <!-- -------------------------------JS-SCRIPT-CODE--------------------- -->
 	<script defer>
-		var countRecipes = 0;
-		var countFastRun = 0;
-		var countProgs = 0;
-		var payloadJSON;
 		var url_path;
 		var globalTimeout = 2000;
-		async function funcButRecipes()
-		{
-			countRecipes++;
-			payloadJSON = {'bPrivate_1' : countRecipes};
-			myLabel = document.getElementsByClassName('debugPress');
-			myLabel.innerHTML = '>>> JSON : ' + JSON.stringify(payloadJSON);
-			url_path = f_draw_all_url();
-			url_path += 'recipe.html';
-			console.log('url_path = ' + url_path);
-			await postDataWithTimeout(url_path, payloadJSON, globalTimeout)
-			.then(jsonESP32 =>
-			{
-				payloadJSON = jsonESP32;
-				myLabel = document.getElementsByClassName('debugRX');
-				myLabel.innerHTML = '<<< RX recipe JSON : ' + countRecipes;
-				var myWindow = window.open('', '_blank');
-				myWindow.document.write(payloadJSON.buttonRecipes);
-			})
-			.catch ( error =>
-			{
-				alert('нет связи с модулем, ' + error.message);
-			});
-		}
-		async function funcButFastRun()
-		{
-			countFastRun++;
-			payloadJSON = {'bPrivate_2' : countFastRun};
-			myLabel = document.getElementsByClassName('debugPress');
-			myLabel.innerHTML = '>>> JSON : ' + JSON.stringify(payloadJSON);
-			url_path = f_draw_all_url();
-			url_path += 'fastrun.html';
-			console.log('url_path = ' + url_path);
-			await postDataWithTimeout(url_path, payloadJSON, globalTimeout)
-			.then(jsonESP32 =>
-			{
-				payloadJSON = jsonESP32;
-				myLabel = document.getElementsByClassName('debugRX');
-				myLabel.innerHTML = '<<< RX fastrun JSON : ' + countFastRun;
-				var myWindow = window.open('', '_blank');
-				myWindow.document.write(payloadJSON.buttonFastRun);
-			})
-			.catch ( error =>
-			{
-				alert('нет связи с модулем, ' + error.message);
-			});
-		}
-		async function funcButProgs()
-		{
-			countProgs++;
-			payloadJSON = {'bPrivate_3' : countProgs};
-			myLabel = document.getElementsByClassName('debugPress');
-			myLabel.innerHTML = '>>> JSON : ' + JSON.stringify(payloadJSON);
-			url_path = f_draw_all_url();
-			url_path += 'programs.html';
-			console.log('url_path = ' + url_path);
-			await postDataWithTimeout(url_path, payloadJSON, globalTimeout)
-			.then(jsonESP32 =>
-			{
-				payloadJSON = jsonESP32;
-				myLabel = document.getElementsByClassName('debugRX');
-				myLabel.innerHTML = '<<< RX progs JSON : ' + countProgs;
-				var myWindow = window.open('', '_blank');
-				myWindow.document.write(payloadJSON.buttonProgs);
-			})
-			.catch ( error =>
-			{
-				alert('нет связи с модулем, ' + error.message);
-			});
-		}
 		function f_draw_all_url()
 		{
 			return 'http://192.168.137.113/';
 		}
-		async function postDataWithTimeout(url = '', jsondata = {}, thresholdTime = {})
+		async function funcButRecipes()
 		{
-			const {timeout = globalTimeout} = thresholdTime;		//default
-			const controller = new AbortController();
-			const id = setTimeout( () => controller.abort(), timeout);
-			
-			const responseFromESP32 = await fetch(url,
-			{
-				method: 'POST',
-				mode: 'cors',
-				cache: 'no-cache',
-				credentials: 'same-origin',
-				headers:
-				{
-					'Accept': 'application/json',
-				},
-				redirect: 'follow',
-				referrerPolicy: 'no-referrer',
-				signal: controller.signal,
-				body: JSON.stringify(jsondata)
-			});
-			const jsonESP32 = await responseFromESP32.json();
-			clearTimeout(id);
-			return jsonESP32;
+			url_path = f_draw_all_url();
+			url_path += 'recipe.html';
+			console.log('url_path = ' + url_path);
+      
+			var myWindow = window.open(url_path, '_self');
+      
+		}
+		async function funcButFastRun()
+		{
+			url_path = f_draw_all_url();
+			url_path += 'fastrun.html';
+			console.log('url_path = ' + url_path);
+      
+			var myWindow = window.open(url_path, '_self');
+		}
+		async function funcButProgs()
+		{
+			url_path = f_draw_all_url();
+			url_path += 'programs.html';
+			console.log('url_path = ' + url_path);
+      
+			var myWindow = window.open(url_path, '_self');
 		}
 	</script>
 <!-- -------------------------------END-JS-SCRIPT---------------------- -->
